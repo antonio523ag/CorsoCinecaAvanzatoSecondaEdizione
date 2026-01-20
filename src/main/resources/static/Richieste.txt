@@ -1,0 +1,40 @@
+utente
+	nome
+	cognome
+	email
+	password
+	dataNascita
+	ruolo (utente,admin)
+Meta
+	nome //barcellona,tenerife, canicattì
+	Elenco<TipologiaMeta>
+TipologiaMeta
+	nome //Mare,Montagna,citta
+RecensioneViaggi
+	utente
+	meta
+	valutazione(tra 0 e 5)
+	descrizione
+	dataPartenza
+	dataRitorno
+
+tutti i non loggati potranno:
+	vedere le mete
+	registrarsi
+	fare la login
+	vedere le recensioni per singola meta
+gli utenti loggati potranno
+	vedere le mete
+	vedere le recensioni per singola meta
+	vedere le proprie recensioni
+	vedere gli utenti
+	vedere le recensioni su un singolo utente
+	aggiungere una recensione
+gli utenti admin
+	potranno eseguire tutte le funzionalità dell'utente loggato
+	potranno creare mete
+	creare tiplogiaMeta
+	vedere tipologieMeta
+	rimuovere recensioni
+	rimuovere un singolo utente
+	creare un utente admin
