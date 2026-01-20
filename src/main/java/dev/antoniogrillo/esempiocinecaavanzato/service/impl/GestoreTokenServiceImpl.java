@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Service
@@ -50,7 +52,7 @@ public class GestoreTokenServiceImpl implements GestoreTokenService {
 
     @Override
     public Utente recuperaUtenteDaToken(String token) {
-        if(getScadenza(token).isAfter(LocalDate.now())) {
+        if(getScadenza(token).isAfter(LocalDateTime.now())) {
             String email=getEmail(token);
             return repo.findByEmail(email).orElse(null);
         }else return null;
@@ -72,8 +74,10 @@ public class GestoreTokenServiceImpl implements GestoreTokenService {
         return getClaims(token).get("ruolo").toString();
     }
 
-    private LocalDate getScadenza(String token){
+    private LocalDateTime getScadenza(String token){
         Date scadenza=getClaims(token).getExpiration();
-        return LocalDate.ofInstant(scadenza.toInstant(),java.time.ZoneId.systemDefault());
+        return scadenza.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 }
