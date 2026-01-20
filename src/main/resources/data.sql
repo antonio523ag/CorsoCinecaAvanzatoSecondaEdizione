@@ -1,0 +1,1 @@
+insert into utente(nome,cognome,username,password,ruolo) values('mario','rossi','m.rossi@email.com','123',1);

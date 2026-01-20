@@ -1,0 +1,11 @@
+
+
+
+custom:
+  tag:
+    jwt:
+      chiave: chiaveAbbastanzaLungaPerLaCodificaDiUnToken
+      durata: 3600000
+spring:
+  profiles:
+    active: h2

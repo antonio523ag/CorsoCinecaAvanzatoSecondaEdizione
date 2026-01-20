@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:dbTest
+    username: root
+    password: toor
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  h2:
+    console:
+      path: /all/console
+      enabled: true
