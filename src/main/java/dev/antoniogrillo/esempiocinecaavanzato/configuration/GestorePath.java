@@ -33,6 +33,7 @@ public class GestorePath {
                 .headers(h->h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(a->a
                         .requestMatchers(HttpMethod.POST,"/all/login").permitAll()
+                        .requestMatchers("/graphql").permitAll()
                         .requestMatchers("/all/**").permitAll()
                         .requestMatchers("/authorized/**").authenticated()
                         .requestMatchers("/utente/**").hasRole(Ruolo.UTENTE.name())

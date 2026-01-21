@@ -1,11 +1,11 @@
-package dev.antoniogrillo.esempiocinecaavanzato.controller;
+package dev.antoniogrillo.esempiocinecaavanzato.controller.rest;
 
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.LoginDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.RegistraUtenteDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.response.LoginResponseDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.response.UtenteDTO;
+import dev.antoniogrillo.esempiocinecaavanzato.facade.def.UtenteFacade;
 import dev.antoniogrillo.esempiocinecaavanzato.model.Utente;
-import dev.antoniogrillo.esempiocinecaavanzato.service.def.UtenteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UtenteController {
 
-    private final UtenteService service;
+    private final UtenteFacade facade;
 
     @PostMapping("/all/utente")
     public ResponseEntity<Void> registraUtente(@RequestBody RegistraUtenteDTO dto){
-        boolean risultato=service.registraUtente(dto);
+        boolean risultato=facade.registraUtente(dto);
         if(risultato){
             return ResponseEntity.ok().build();
         }else{
@@ -35,13 +35,13 @@ public class UtenteController {
 
     @GetMapping("/all/utenti")
     public ResponseEntity<List<UtenteDTO>> getAllUtenti(){
-        return ResponseEntity.ok(service.getAllUtenti());
+        return ResponseEntity.ok(facade.getAllUtenti());
     }
 
 
     @PostMapping("/all/login")
     public ResponseEntity<UtenteDTO> login(@RequestBody LoginDTO request){
-        LoginResponseDTO u=service.login(request);
+        LoginResponseDTO u=facade.login(request);
         if(u!=null){
             return ResponseEntity.status(HttpStatus.OK).header("Authorization",u.token()).body(u.utente());
         }else{

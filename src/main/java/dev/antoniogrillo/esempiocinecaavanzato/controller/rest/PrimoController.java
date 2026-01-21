@@ -1,4 +1,4 @@
-package dev.antoniogrillo.esempiocinecaavanzato.controller;
+package dev.antoniogrillo.esempiocinecaavanzato.controller.rest;
 
 import dev.antoniogrillo.esempiocinecaavanzato.model.Automobile;
 import dev.antoniogrillo.esempiocinecaavanzato.model.CasaAutomobilistica;

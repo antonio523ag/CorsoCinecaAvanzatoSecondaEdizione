@@ -1,8 +1,8 @@
-package dev.antoniogrillo.esempiocinecaavanzato.service.impl;
+package dev.antoniogrillo.esempiocinecaavanzato.service.jpa;
 
 import dev.antoniogrillo.esempiocinecaavanzato.model.Utente;
-import dev.antoniogrillo.esempiocinecaavanzato.repository.UtenteRepository;
 import dev.antoniogrillo.esempiocinecaavanzato.service.def.GestoreTokenService;
+import dev.antoniogrillo.esempiocinecaavanzato.service.def.UtenteService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -12,16 +12,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
+
 public class GestoreTokenServiceImpl implements GestoreTokenService {
 
-    private final UtenteRepository repo;
+    private final UtenteService service;
 
     @Value("${custom.tag.jwt.chiave}")
     private String chiave;
@@ -54,7 +54,7 @@ public class GestoreTokenServiceImpl implements GestoreTokenService {
     public Utente recuperaUtenteDaToken(String token) {
         if(getScadenza(token).isAfter(LocalDateTime.now())) {
             String email=getEmail(token);
-            return repo.findByEmail(email).orElse(null);
+            return service.findByEmail(email).orElse(null);
         }else return null;
     }
 

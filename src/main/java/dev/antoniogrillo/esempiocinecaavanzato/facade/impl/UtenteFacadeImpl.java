@@ -1,12 +1,12 @@
-package dev.antoniogrillo.esempiocinecaavanzato.service.impl;
+package dev.antoniogrillo.esempiocinecaavanzato.facade.impl;
 
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.LoginDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.RegistraUtenteDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.response.LoginResponseDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.response.UtenteDTO;
+import dev.antoniogrillo.esempiocinecaavanzato.facade.def.UtenteFacade;
 import dev.antoniogrillo.esempiocinecaavanzato.mapper.UtenteMapper;
 import dev.antoniogrillo.esempiocinecaavanzato.model.Utente;
-import dev.antoniogrillo.esempiocinecaavanzato.repository.UtenteRepository;
 import dev.antoniogrillo.esempiocinecaavanzato.service.def.GestoreTokenService;
 import dev.antoniogrillo.esempiocinecaavanzato.service.def.UtenteService;
 import lombok.RequiredArgsConstructor;
@@ -18,31 +18,30 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UtenteServiceImpl implements UtenteService {
+public class UtenteFacadeImpl implements UtenteFacade {
 
-    private final UtenteRepository repo;
+    private final UtenteService service;
     private final UtenteMapper mapper;
     private final GestoreTokenService gestoreTokenService;
 
     @Override
     public boolean registraUtente(RegistraUtenteDTO dto) {
-        Utente u= mapper.toUtente(dto);
-        u=repo.save(u);
-        return u.getId()!=0;
+        Utente u=mapper.toUtente(dto);
+        if(service.registraUtente(u))return true;
+        else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Utente già esistente");
     }
 
     @Override
     public List<UtenteDTO> getAllUtenti() {
-        List<Utente> utenti=repo.findAll();
-        return mapper.toUtenteDTO(utenti);
+        List<Utente> l=service.getAllUtenti();
+        return mapper.toUtenteDTO(l);
     }
 
     @Override
     public LoginResponseDTO login(LoginDTO request) {
-        Utente utente=repo.findByEmailAndPassword(request.username(),request.password())
-                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Utente non trovato"));
-        UtenteDTO dto= mapper.toUtenteDTO(utente);
-        String token=gestoreTokenService.generaToken(utente);
-        return new LoginResponseDTO(dto,token);
+        Utente u=service.login(request.username(),request.password()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Credenziali non valide"));
+        String token=gestoreTokenService.generaToken(u);
+        UtenteDTO utenteDTO=mapper.toUtenteDTO(u);
+        return new LoginResponseDTO(utenteDTO,token);
     }
 }

@@ -1,0 +1,55 @@
+type Automobile{
+    id:ID!
+    modello:String
+    annoImmatricolazione:Int
+    colore:String
+    marca:String!
+    idMarca:ID!
+}
+
+type CasaAutomobilistica{
+    id:ID!
+    nome:String
+    automobili:[Automobile]
+}
+
+type Utente{
+    id:ID!
+    nome:String
+    cognome:String
+    username:String
+    automobili:[Automobile]
+}
+
+type LoginResponseDTO{
+    token:String!
+    utente:Utente!
+}
+
+type Query{
+    getAllUtenti:[Utente]
+    login(input:LoginDTO!):LoginResponseDTO!
+    getUtente:Utente!
+    getAutomobile(id:ID!):Automobile!
+    getAutomobiliPerUtente:[Automobile]
+    getAutomobiliPerAnnoMinimo(input:Int!):[Automobile]
+    getAutomobiliPerMarca(input:ID!):[Automobile]
+}
+
+type Mutation{
+    registraUtente(input:RegistraUtenteDTO):Boolean
+}
+
+input RegistraUtenteDTO{
+    nome:String!
+    cognome:String!
+    username:String!
+    password:String!
+}
+
+input LoginDTO{
+    username:String!
+    password:String!
+}
+
+

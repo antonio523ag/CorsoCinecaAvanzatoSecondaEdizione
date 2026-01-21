@@ -40,6 +40,15 @@ public class AutomobiliCriteraRepository {
 //        return manager.createQuery(query).getResultList();
 //    }
 //
+    public Automobile getAutomobile(long id) {
+        CriteriaBuilder builder=manager.getCriteriaBuilder();
+        CriteriaQuery<Automobile> query=builder.createQuery(Automobile.class);
+        Root<Automobile> root=query.from(Automobile.class);
+        Predicate p=builder.greaterThanOrEqualTo(root.get("id"),id);
+        query.where(p);
+        return manager.createQuery(query).getSingleResult();
+    }
+
     public List<Automobile> getAutomobiliByAnnoMinimo(int annoMinimo) {
         CriteriaBuilder builder=manager.getCriteriaBuilder();
         CriteriaQuery<Automobile> query=builder.createQuery(Automobile.class);

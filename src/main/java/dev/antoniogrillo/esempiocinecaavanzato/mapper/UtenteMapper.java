@@ -17,7 +17,7 @@ public class UtenteMapper {
     private final AutomobileMapper mapper;
 
     public UtenteDTO toUtenteDTO(Utente utente){
-        List<AutomobileDTO> automobili=mapper.toAutomobileDTO(utente.getAutomobili());
+        List<AutomobileDTO> automobili=utente.getAutomobili()==null?new ArrayList<>():mapper.toAutomobileDTO(utente.getAutomobili());
         return new UtenteDTO(utente.getId(),
                 utente.getNome(),
                 utente.getCognome(),
