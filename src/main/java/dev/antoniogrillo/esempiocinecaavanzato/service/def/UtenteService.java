@@ -37,4 +37,6 @@ public interface UtenteService {
     Optional<Utente> getById(
             @Min(value = 1,message = "Id non valido")
             long id);
+
+    void save(Utente u);
 }

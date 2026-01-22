@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -55,5 +56,17 @@ public class AutomobileFacadeImpl implements AutomobileFacade {
         Automobile a=service.getAutomobile(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Automobile non trovata"));
 
         return mapper.toAutomobileDTO(a);
+    }
+
+    @Override
+    public void assegnaAutoAllUtente(long id, Utente u) {
+        u=utenteService.getById(u.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Utente non trovato"));
+        Automobile a=service.getAutomobile(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Automobile non trovata"));
+        if(u.getAutomobili()==null)u.setAutomobili(new ArrayList<>());
+        if(a.getProprietari()==null)a.setProprietari(new ArrayList<>());
+        if(u.getAutomobili().stream().map(Automobile::getId).anyMatch(p->p==id)) return;
+        u.getAutomobili().add(a);
+        a.getProprietari().add(u);
+        utenteService.save(u);
     }
 }

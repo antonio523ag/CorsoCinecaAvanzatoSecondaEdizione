@@ -10,6 +10,8 @@ import dev.antoniogrillo.esempiocinecaavanzato.model.Utente;
 import dev.antoniogrillo.esempiocinecaavanzato.service.def.GestoreTokenService;
 import dev.antoniogrillo.esempiocinecaavanzato.service.def.UtenteService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +25,7 @@ public class UtenteFacadeImpl implements UtenteFacade {
     private final UtenteService service;
     private final UtenteMapper mapper;
     private final GestoreTokenService gestoreTokenService;
+    private final Logger logger= LogManager.getLogger(UtenteFacadeImpl.class);
 
     @Override
     public boolean registraUtente(RegistraUtenteDTO dto) {
@@ -39,9 +42,13 @@ public class UtenteFacadeImpl implements UtenteFacade {
 
     @Override
     public LoginResponseDTO login(LoginDTO request) {
+
         Utente u=service.login(request.username(),request.password()).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Credenziali non valide"));
+        logger.debug("utente trovato con id: {}",u.getId());
         String token=gestoreTokenService.generaToken(u);
+        logger.debug("token generato: {}",token);
         UtenteDTO utenteDTO=mapper.toUtenteDTO(u);
+        logger.info("utenteDTO: {}",utenteDTO);
         return new LoginResponseDTO(utenteDTO,token);
     }
 }

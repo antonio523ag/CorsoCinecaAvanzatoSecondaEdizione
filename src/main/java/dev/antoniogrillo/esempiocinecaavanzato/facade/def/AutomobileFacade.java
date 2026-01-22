@@ -13,4 +13,6 @@ public interface AutomobileFacade {
     List<AutomobileDTO> getAutomobiliPerMarca(long id);
 
     AutomobileDTO getAutomobile(long id);
+
+    void assegnaAutoAllUtente(long id, Utente u);
 }

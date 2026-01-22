@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public class AutomobileController {
     @GetMapping("/all/automobile/marca/{id}")
     public ResponseEntity<List<AutomobileDTO>> getAutomobiliPerMarca(@PathVariable long id){
         return ResponseEntity.ok(facade.getAutomobiliPerMarca(id));
+    }
+
+    @PostMapping("/authenticated/utente/assegnaAuto/{id}")
+    public ResponseEntity<Void> assegnaAutoAllUtente(@PathVariable long id,@AuthenticationPrincipal Utente u){
+        facade.assegnaAutoAllUtente(id,u);
+        return ResponseEntity.ok().build();
     }
 
 

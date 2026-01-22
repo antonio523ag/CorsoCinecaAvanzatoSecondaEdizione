@@ -3,9 +3,6 @@ package dev.antoniogrillo.esempiocinecaavanzato.controller.graph;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.GraphLoginResponseDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.LoginDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.dto.request.RegistraUtenteDTO;
-import dev.antoniogrillo.esempiocinecaavanzato.dto.response.AutomobileDTO;
-import dev.antoniogrillo.esempiocinecaavanzato.dto.response.LoginResponseDTO;
-import dev.antoniogrillo.esempiocinecaavanzato.dto.response.UtenteDTO;
 import dev.antoniogrillo.esempiocinecaavanzato.facade.def.GraphUtenteFacade;
 import dev.antoniogrillo.esempiocinecaavanzato.model.Automobile;
 import dev.antoniogrillo.esempiocinecaavanzato.model.Utente;
@@ -62,4 +59,10 @@ public class UtenteGraphController {
     public List<Automobile> getAutomobili(Utente utente){
         return facade.getAutomobiliPerUtente(utente);
     }
+
+    @SchemaMapping(typeName = "Utente", field = "nomeCompleto")
+    public String nomeCompleto(Utente utente){
+        return utente.getNome()+" "+utente.getCognome();
+    }
+
 }

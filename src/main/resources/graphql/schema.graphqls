@@ -19,6 +19,7 @@ type Utente{
     cognome:String
     username:String
     automobili:[Automobile]
+    nomeCompleto:String
 }
 
 type LoginResponseDTO{
